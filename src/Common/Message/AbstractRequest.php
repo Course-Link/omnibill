@@ -655,6 +655,11 @@ abstract class AbstractRequest implements RequestInterface
 
     }
 
+    public function getSaleDate()
+    {
+
+    }
+
     /**
      * Send the request
      *
