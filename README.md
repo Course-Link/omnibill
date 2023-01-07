@@ -1,4 +1,4 @@
-# Omnipay Common
+# Omnibill
 
 **Core components for the Omnipay PHP payment processing library**
 
