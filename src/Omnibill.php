@@ -1,8 +1,4 @@
 <?php
-/**
- * Omnipay class
- */
-
 namespace Omnibill;
 
 use Omnibill\Common\GatewayFactory;
