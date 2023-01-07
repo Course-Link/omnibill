@@ -3,7 +3,7 @@
  * Request Interface
  */
 
-namespace Omnipay\Common\Message;
+namespace Omnibill\Common\Message;
 
 /**
  * Request Interface

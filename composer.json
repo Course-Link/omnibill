@@ -21,7 +21,9 @@
   ],
   "autoload": {
     "psr-4": {
-      "Omnibill\\Common\\": "src/Common"
+      "Omnibill\\Common\\": "src/Common",
+      "Omnibill\\ifirma\\": "src/ifirma",
+      "Omnibill\\wFirma\\": "src/wFirma"
     },
     "classmap": [
       "src/Omnibill.php"
@@ -48,7 +50,6 @@
     "phpunit/phpunit": "^9.3",
     "mockery/mockery": "^1.5",
     "php-http/mock-client": "^1.5",
-    "php-http/message": "^1.13",
     "guzzlehttp/guzzle": "^7.0",
     "php-http/guzzle7-adapter": "^1.0"
   },

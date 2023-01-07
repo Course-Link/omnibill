@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\Common\Message;
+namespace Omnibill\Common\Message;
 
 /**
  * Incoming notification

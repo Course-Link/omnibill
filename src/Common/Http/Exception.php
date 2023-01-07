@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\Common\Http;
+namespace Omnibill\Common\Http;
 
 use Psr\Http\Message\RequestInterface;
 use Throwable;

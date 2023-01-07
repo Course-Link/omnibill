@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\Common\Http;
+namespace Omnibill\Common\Http;
 
 use function GuzzleHttp\Psr7\str;
 use Http\Client\HttpClient;

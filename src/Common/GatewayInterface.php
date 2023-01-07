@@ -3,7 +3,7 @@
  * Payment gateway interface
  */
 
-namespace Omnipay\Common;
+namespace Omnibill\Common;
 
 /**
  * Payment gateway interface
@@ -39,44 +39,13 @@ namespace Omnipay\Common;
  */
 interface GatewayInterface
 {
-    /**
-     * Get gateway display name
-     *
-     * This can be used by carts to get the display name for each gateway.
-     * @return string
-     */
-    public function getName();
+    public function getName(): string;
 
-    /**
-     * Get gateway short name
-     *
-     * This name can be used with GatewayFactory as an alias of the gateway class,
-     * to create new instances of this gateway.
-     * @return string
-     */
-    public function getShortName();
+    public function getShortName(): string;
 
-    /**
-     * Define gateway parameters, in the following format:
-     *
-     * array(
-     *     'username' => '', // string variable
-     *     'testMode' => false, // boolean variable
-     *     'landingPage' => array('billing', 'login'), // enum variable, first item is default
-     * );
-     * @return array
-     */
-    public function getDefaultParameters();
+    public function getDefaultParameters(): array;
 
-    /**
-     * Initialize gateway with parameters
-     * @return $this
-     */
-    public function initialize(array $parameters = array());
+    public function initialize(array $parameters = []): self;
 
-    /**
-     * Get all gateway parameters
-     * @return array
-     */
     public function getParameters();
 }

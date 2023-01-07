@@ -3,7 +3,7 @@
  * Abstract Request
  */
 
-namespace Omnipay\Common\Message;
+namespace Omnibill\Common\Message;
 
 use Money\Currencies\ISOCurrencies;
 use Money\Currency;
@@ -11,14 +11,16 @@ use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use Money\Number;
 use Money\Parser\DecimalMoneyParser;
-use Omnipay\Common\CreditCard;
-use Omnipay\Common\Exception\InvalidRequestException;
-use Omnipay\Common\Exception\RuntimeException;
-use Omnipay\Common\Helper;
-use Omnipay\Common\Http\Client;
-use Omnipay\Common\Http\ClientInterface;
-use Omnipay\Common\ItemBag;
-use Omnipay\Common\ParametersTrait;
+use Omnibill\Common\AbstractGateway;
+use Omnibill\Common\CreditCard;
+use Omnibill\Common\Enums\InvoiceTypeEnum;
+use Omnibill\Common\Exception\InvalidRequestException;
+use Omnibill\Common\Exception\RuntimeException;
+use Omnibill\Common\Helper;
+use Omnibill\Common\Http\Client;
+use Omnibill\Common\Http\ClientInterface;
+use Omnibill\Common\ItemBag;
+use Omnibill\Common\ParametersTrait;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
@@ -69,52 +71,19 @@ abstract class AbstractRequest implements RequestInterface
         setParameter as traitSetParameter;
     }
 
-    /**
-     * The request client.
-     *
-     * @var ClientInterface
-     */
-    protected $httpClient;
+    protected ResponseInterface $response;
 
-    /**
-     * The HTTP request object.
-     *
-     * @var \Symfony\Component\HttpFoundation\Request
-     */
-    protected $httpRequest;
+    protected ISOCurrencies $currencies;
 
-    /**
-     * An associated ResponseInterface.
-     *
-     * @var ResponseInterface
-     */
-    protected $response;
+    protected bool $zeroAmountAllowed = true;
 
-    /**
-     * @var ISOCurrencies
-     */
-    protected $currencies;
+    protected bool $negativeAmountAllowed = false;
 
-    /**
-     * @var bool
-     */
-    protected $zeroAmountAllowed = true;
-
-    /**
-     * @var bool
-     */
-    protected $negativeAmountAllowed = false;
-
-    /**
-     * Create a new Request
-     *
-     * @param ClientInterface $httpClient  A HTTP client to make API calls with
-     * @param HttpRequest     $httpRequest A Symfony HTTP request object
-     */
-    public function __construct(ClientInterface $httpClient, HttpRequest $httpRequest)
+    public function __construct(
+        protected ClientInterface $httpClient,
+        protected HttpRequest     $httpRequest
+    )
     {
-        $this->httpClient = $httpClient;
-        $this->httpRequest = $httpRequest;
         $this->initialize();
     }
 
@@ -149,7 +118,7 @@ abstract class AbstractRequest implements RequestInterface
      * @return $this
      * @throws RuntimeException if a request parameter is modified after the request has been sent.
      */
-    protected function setParameter($key, $value)
+    protected function setParameter(string $key, mixed $value)
     {
         if (null !== $this->response) {
             throw new RuntimeException('Request cannot be modified after it has been sent!');
@@ -259,7 +228,7 @@ abstract class AbstractRequest implements RequestInterface
     }
 
     /**
-     * @param  string|int|null $amount
+     * @param string|int|null $amount
      * @return null|Money
      * @throws InvalidRequestException
      */
@@ -288,7 +257,7 @@ abstract class AbstractRequest implements RequestInterface
                 throw new InvalidRequestException('Amount precision is too high for currency.');
             }
 
-            $money = $moneyParser->parse((string) $number, $currency);
+            $money = $moneyParser->parse((string)$number, $currency);
         }
 
         // Check for a negative amount.
@@ -307,8 +276,8 @@ abstract class AbstractRequest implements RequestInterface
     /**
      * Validates and returns the formatted amount.
      *
-     * @throws InvalidRequestException on any validation failure.
      * @return string The amount formatted to the correct number of decimal places for the selected currency.
+     * @throws InvalidRequestException on any validation failure.
      */
     public function getAmount()
     {
@@ -329,7 +298,7 @@ abstract class AbstractRequest implements RequestInterface
      */
     public function setAmount($value)
     {
-        return $this->setParameter('amount', $value !== null ? (string) $value : null);
+        return $this->setParameter('amount', $value !== null ? (string)$value : null);
     }
 
     /**
@@ -342,7 +311,7 @@ abstract class AbstractRequest implements RequestInterface
         $money = $this->getMoney();
 
         if ($money !== null) {
-            return (int) $money->getAmount();
+            return (int)$money->getAmount();
         }
     }
 
@@ -354,7 +323,7 @@ abstract class AbstractRequest implements RequestInterface
      */
     public function setAmountInteger($value)
     {
-        return $this->setParameter('amount', (int) $value);
+        return $this->setParameter('amount', (int)$value);
     }
 
     /**
@@ -403,14 +372,14 @@ abstract class AbstractRequest implements RequestInterface
      */
     public function getCurrencyNumeric()
     {
-        if (! $this->getCurrency()) {
+        if (!$this->getCurrency()) {
             return null;
         }
 
         $currency = new Currency($this->getCurrency());
 
         if ($this->getCurrencies()->contains($currency)) {
-            return (string) $this->getCurrencies()->numericCodeFor($currency);
+            return (string)$this->getCurrencies()->numericCodeFor($currency);
         }
     }
 
@@ -439,7 +408,7 @@ abstract class AbstractRequest implements RequestInterface
      */
     public function formatCurrency($amount)
     {
-        $money = $this->getMoney((string) $amount);
+        $money = $this->getMoney((string)$amount);
         $formatter = new DecimalMoneyFormatter($this->getCurrencies());
 
         return $formatter->format($money);
@@ -674,6 +643,16 @@ abstract class AbstractRequest implements RequestInterface
     public function setPaymentMethod($value)
     {
         return $this->setParameter('paymentMethod', $value);
+    }
+
+    public function getInvoiceType(): InvoiceTypeEnum
+    {
+        return $this->getParameter('invoiceType');
+    }
+
+    public function getPaymentDate()
+    {
+
     }
 
     /**

@@ -3,7 +3,7 @@
  * Response interface
  */
 
-namespace Omnipay\Common\Message;
+namespace Omnibill\Common\Message;
 
 /**
  * Response Interface

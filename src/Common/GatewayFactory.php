@@ -3,10 +3,10 @@
  * Omnipay Gateway Factory class
  */
 
-namespace Omnipay\Common;
+namespace Omnibill\Common;
 
-use Omnipay\Common\Exception\RuntimeException;
-use Omnipay\Common\Http\ClientInterface;
+use Omnibill\Common\Exception\RuntimeException;
+use Omnibill\Common\Http\ClientInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 /**

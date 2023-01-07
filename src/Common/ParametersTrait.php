@@ -1,40 +1,22 @@
 <?php
 
-namespace Omnipay\Common;
+namespace Omnibill\Common;
 
-use Omnipay\Common\Exception\InvalidRequestException;
+use Omnibill\Common\Exception\InvalidRequestException;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 trait ParametersTrait
 {
-    /**
-     * Internal storage of all of the parameters.
-     *
-     * @var ParameterBag
-     */
-    protected $parameters;
+    protected ParameterBag $parameters;
 
-    /**
-     * Set one parameter.
-     *
-     * @param string $key Parameter key
-     * @param mixed $value Parameter value
-     * @return $this
-     */
-    protected function setParameter($key, $value)
+    protected function setParameter(string $key, mixed $value): self
     {
         $this->parameters->set($key, $value);
 
         return $this;
     }
 
-    /**
-     * Get one parameter.
-     *
-     * @param  string $key Parameter key
-     * @return mixed A single parameter value.
-     */
-    protected function getParameter($key)
+    protected function getParameter(string $key): mixed
     {
         return $this->parameters->get($key);
     }
@@ -77,7 +59,7 @@ trait ParametersTrait
     {
         foreach ($args as $key) {
             $value = $this->parameters->get($key);
-            if (! isset($value)) {
+            if (!isset($value)) {
                 throw new InvalidRequestException("The $key parameter is required");
             }
         }

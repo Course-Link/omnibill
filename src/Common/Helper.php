@@ -3,7 +3,7 @@
  * Helper class
  */
 
-namespace Omnipay\Common;
+namespace Omnibill\Common;
 
 use InvalidArgumentException;
 

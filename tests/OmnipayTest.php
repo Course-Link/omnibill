@@ -9,16 +9,16 @@ class OmnipayTest extends TestCase
 {
     public function tearDown() : void
     {
-        Omnipay::setFactory(null);
+        Omnibill::setFactory(null);
 
         parent::tearDown();
     }
 
     public function testGetFactory()
     {
-        Omnipay::setFactory(null);
+        Omnibill::setFactory(null);
 
-        $factory = Omnipay::getFactory();
+        $factory = Omnibill::getFactory();
         $this->assertInstanceOf('Omnipay\Common\GatewayFactory', $factory);
     }
 
@@ -26,9 +26,9 @@ class OmnipayTest extends TestCase
     {
         $factory = m::mock('Omnipay\Common\GatewayFactory');
 
-        Omnipay::setFactory($factory);
+        Omnibill::setFactory($factory);
 
-        $this->assertSame($factory, Omnipay::getFactory());
+        $this->assertSame($factory, Omnibill::getFactory());
     }
 
     public function testCallStatic()
@@ -36,9 +36,9 @@ class OmnipayTest extends TestCase
         $factory = m::mock('Omnipay\Common\GatewayFactory');
         $factory->shouldReceive('testMethod')->with('some-argument')->once()->andReturn('some-result');
 
-        Omnipay::setFactory($factory);
+        Omnibill::setFactory($factory);
 
-        $result = Omnipay::testMethod('some-argument');
+        $result = Omnibill::testMethod('some-argument');
         $this->assertSame('some-result', $result);
     }
 }

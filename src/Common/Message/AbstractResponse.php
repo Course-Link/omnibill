@@ -3,9 +3,9 @@
  * Abstract Response
  */
 
-namespace Omnipay\Common\Message;
+namespace Omnibill\Common\Message;
 
-use Omnipay\Common\Exception\RuntimeException;
+use Omnibill\Common\Exception\RuntimeException;
 use Symfony\Component\HttpFoundation\RedirectResponse as HttpRedirectResponse;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 

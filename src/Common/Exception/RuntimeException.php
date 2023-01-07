@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\Common\Exception;
+namespace Omnibill\Common\Exception;
 
 /**
  * Runtime Exception

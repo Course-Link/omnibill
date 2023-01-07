@@ -1,9 +1,9 @@
 <?php
 
-namespace Omnipay\Common\Http;
+namespace Omnibill\Common\Http;
 
-use Omnipay\Common\Http\Exception\NetworkException;
-use Omnipay\Common\Http\Exception\RequestException;
+use Omnibill\Common\Http\Exception\NetworkException;
+use Omnibill\Common\Http\Exception\RequestException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
