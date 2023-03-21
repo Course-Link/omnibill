@@ -96,7 +96,7 @@ abstract class AbstractOAuth2Connector
         return !$this->stateless;
     }
 
-    private function prepareState(int $length = 40): static
+    public function prepareState(int $length = 40): static
     {
         $string = '';
 
