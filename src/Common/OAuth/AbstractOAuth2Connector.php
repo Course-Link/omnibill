@@ -56,7 +56,7 @@ abstract class AbstractOAuth2Connector
     {
         $response = $this->httpClient->request('POST', $this->getTokenUrl(), [
             'headers' => ['Accept' => 'application/json'],
-            'form_params' => $this->getCodeFields($code),
+            'form_params' => $this->getTokenFields($code),
         ]);
 
         return json_decode($response->getBody()->getContents(), true);
@@ -64,7 +64,7 @@ abstract class AbstractOAuth2Connector
 
     protected function buildAuthUrlFromBase($url, $state): string
     {
-        return $url . '?' . http_build_query($this->getTokenFields($state), '', '&', $this->encodingType);
+        return $url . '?' . http_build_query($this->getCodeFields($state), '', '&', $this->encodingType);
     }
 
     protected function getTokenFields(string $code): array
