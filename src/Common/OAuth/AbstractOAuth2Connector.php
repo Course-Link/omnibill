@@ -113,6 +113,11 @@ abstract class AbstractOAuth2Connector
         return $this;
     }
 
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
     private function hasInvalidState(): bool
     {
         if ($this->isStateless()) {
