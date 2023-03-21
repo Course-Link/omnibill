@@ -48,6 +48,8 @@ abstract class AbstractOAuth2Connector
         }
 
         $response = $this->getAccessTokenResponse($this->getCode());
+
+        return $response;
     }
 
     public function getAccessTokenResponse(string $code): array
