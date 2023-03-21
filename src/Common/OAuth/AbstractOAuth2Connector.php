@@ -64,7 +64,18 @@ abstract class AbstractOAuth2Connector
 
     protected function buildAuthUrlFromBase($url, $state): string
     {
-        return $url . '?' . http_build_query($this->getCodeFields($state), '', '&', $this->encodingType);
+        return $url . '?' . http_build_query($this->getTokenFields($state), '', '&', $this->encodingType);
+    }
+
+    protected function getTokenFields(string $code): array
+    {
+        return [
+            'grant_type' => 'authorization_code',
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'code' => $code,
+            'redirect_uri' => $this->redirectUrl,
+        ];
     }
 
     protected function getCodeFields($state = null): array
