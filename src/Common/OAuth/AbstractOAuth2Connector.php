@@ -38,10 +38,14 @@ abstract class AbstractOAuth2Connector
 
     public function redirect(): HttpRedirectResponse|HttpResponse
     {
+        if ($this->usesState() && $this->state === null) {
+            $this->prepareState();
+        }
+
         return new HttpRedirectResponse($this->getAuthUrl($this->state));
     }
 
-    public function getData()
+    public function getData(): array
     {
         if ($this->hasInvalidState()) {
             throw new RuntimeException('Invalid State');
@@ -49,15 +53,26 @@ abstract class AbstractOAuth2Connector
 
         $response = $this->getAccessTokenResponse($this->getCode());
 
-        return $response;
+        $token = $response['access_token'] ?? null;
+        $refreshToken = $response['refresh_token'] ?? null;
+        $expires = $response['expires_in'] ?? null;
+        $approvedScopes = explode($this->scopeSeparator, $response['scope'] ?? '');
+
+        return [
+            'access_token' => $token,
+            'refresh_token' => $refreshToken,
+            'expires' => $expires,
+            'approved_scopes' => $approvedScopes,
+        ];
     }
 
     public function getAccessTokenResponse(string $code): array
     {
-        $response = $this->httpClient->request('POST', $this->getTokenUrl(), [
-            'headers' => ['Accept' => 'application/json'],
-            'form_params' => $this->getTokenFields($code),
-        ]);
+        $response = $this->httpClient->request('POST',
+            $this->getTokenUrl(),
+            ['Accept' => 'application/json'],
+            http_build_query($this->getTokenFields($code))
+        );
 
         return json_decode($response->getBody()->getContents(), true);
     }

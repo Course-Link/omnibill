@@ -3,6 +3,7 @@
 namespace Omnibill\wFirma\Messages;
 
 use Omnibill\Common\Customer\HasCustomer;
+use Omnibill\Common\Exception\AuthException;
 use Omnibill\Common\Message\AbstractResponse;
 
 class CreateInvoiceRequest extends AbstractRequest
@@ -54,23 +55,14 @@ class CreateInvoiceRequest extends AbstractRequest
         return $data;
     }
 
+    /**
+     * @throws AuthException
+     */
     public function sendData($data): AbstractResponse
     {
-        $url = self::$host;
+        $endpoint = 'invoices/add';
 
-        // TODO Token
-        $httpResponse = $this->httpClient->request(
-            'post',
-            $url,
-            [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $this->getToken(),
-            ],
-            json_encode($data)
-        );
-
-        $data = json_decode($httpResponse->getBody()->getContents(), true);
+        $data = $this->sendRequest('post', $endpoint, $data);
 
         return $this->response = new CreateInvoiceResponse($this, $data);
     }
