@@ -73,7 +73,7 @@ abstract class AbstractRequest implements RequestInterface
 
     protected ResponseInterface $response;
 
-    protected ISOCurrencies $currencies;
+    protected ?ISOCurrencies $currencies = null;
 
     protected bool $zeroAmountAllowed = true;
 
