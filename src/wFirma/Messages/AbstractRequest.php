@@ -50,13 +50,13 @@ abstract class AbstractRequest extends BaseRequest
         $content = $httpResponse->getBody()->getContents();
 
         if (str_contains($content, '<code>INPUT ERROR</code>')) {
-            throw new InvalidRequestException();
+            throw new InvalidRequestException('Invalid request');
         }
 
         $result = json_decode($content, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new InvalidResponseException();
+            throw new InvalidResponseException('Invalid response');
         }
 
         return $result;

@@ -6,9 +6,13 @@ use Omnibill\Common\Message\AbstractResponse;
 
 class CreateInvoiceResponse extends AbstractResponse
 {
-
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
-        // TODO: Implement isSuccessful() method.
+        return isset($this->data['invoices'][0]['invoice']['id']);
+    }
+
+    public function getInvoiceId()
+    {
+        return $this->data['invoices'][0]['invoice']['id'];
     }
 }
