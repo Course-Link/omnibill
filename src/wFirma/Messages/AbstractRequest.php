@@ -3,6 +3,8 @@
 namespace Omnibill\wFirma\Messages;
 
 use Omnibill\Common\Exception\AuthException;
+use Omnibill\Common\Exception\InvalidRequestException;
+use Omnibill\Common\Exception\InvalidResponseException;
 use Omnibill\Common\Message\AbstractRequest as BaseRequest;
 use Omnibill\wFirma\wFirmaCredentials;
 use Psr\Http\Message\ResponseInterface;
@@ -15,6 +17,8 @@ abstract class AbstractRequest extends BaseRequest
 
     /**
      * @throws AuthException
+     * @throws InvalidResponseException
+     * @throws InvalidRequestException
      */
     protected function sendRequest(string $method, string $endpoint, array $data = null): array
     {
@@ -44,6 +48,18 @@ abstract class AbstractRequest extends BaseRequest
             throw new AuthException('Invalid credentials');
         }
 
-        return json_decode($httpResponse->getBody()->getContents(), true);
+        $content = $httpResponse->getBody()->getContents();
+
+        if (contains($content, '<code>INPUT ERROR</code>')) {
+            throw new InvalidRequestException();
+        }
+
+        $result = json_decode($content, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new InvalidResponseException();
+        }
+
+        return $result;
     }
 }
