@@ -31,14 +31,14 @@ class CreateInvoiceRequest extends AbstractRequest
                         "disposaldate" => $this->getPaymentDate(),
                         "id_external" => $this->getTransactionId(),
                         "auto_send" => true,
-                        "alreadypaid_initial" => $this->getAmount(),
+                        "alreadypaid_initial" => 35.55,
                         "invoicecontents" => [
                             "0" => [
                                 "invoicecontent" => [
                                     "name" => $this->getDescription(),
                                     "count" => "1.0000",
                                     "unit_count" => "1.0000",
-                                    "price" => $this->getAmount(),
+                                    "price" => 35.55,
                                     "unit" => "szt."
                                 ]
                             ]
