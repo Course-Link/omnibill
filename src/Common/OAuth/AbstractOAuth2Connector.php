@@ -70,7 +70,10 @@ abstract class AbstractOAuth2Connector
     {
         $response = $this->httpClient->request('POST',
             $this->getTokenUrl(),
-            ['Accept' => 'application/json'],
+            [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ],
             http_build_query($this->getTokenFields($code))
         );
 
