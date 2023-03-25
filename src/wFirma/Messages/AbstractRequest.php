@@ -7,7 +7,6 @@ use Omnibill\Common\Exception\InvalidRequestException;
 use Omnibill\Common\Exception\InvalidResponseException;
 use Omnibill\Common\Message\AbstractRequest as BaseRequest;
 use Omnibill\wFirma\wFirmaCredentials;
-use Psr\Http\Message\ResponseInterface;
 
 abstract class AbstractRequest extends BaseRequest
 {
@@ -50,7 +49,7 @@ abstract class AbstractRequest extends BaseRequest
 
         $content = $httpResponse->getBody()->getContents();
 
-        if (contains($content, '<code>INPUT ERROR</code>')) {
+        if (str_contains($content, '<code>INPUT ERROR</code>')) {
             throw new InvalidRequestException();
         }
 
