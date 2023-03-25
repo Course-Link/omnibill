@@ -670,9 +670,19 @@ abstract class AbstractRequest implements RequestInterface
         return $this->getParameter('invoiceType');
     }
 
+    public function setInvoiceType(InvoiceTypeEnum $value): static
+    {
+        return $this->setParameter('invoiceType', $value);
+    }
+
     public function getPaymentDate()
     {
         return $this->getParameter('paymentDate');
+    }
+
+    public function setPaymentDate($value)
+    {
+        return $this->setParameter('paymentDate', $value);
     }
 
     public function getSaleDate()
