@@ -71,7 +71,7 @@ abstract class AbstractRequest implements RequestInterface
         setParameter as traitSetParameter;
     }
 
-    protected ResponseInterface $response;
+    protected ?ResponseInterface $response = null;
 
     protected ?ISOCurrencies $currencies = null;
 
