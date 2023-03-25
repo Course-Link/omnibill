@@ -24,14 +24,14 @@ trait HasOAuth2Token
         return $this->setParameter('clientSecret', $value);
     }
 
-    public function getToken(): ?string
+    public function getAccessToken(): ?string
     {
-        return $this->getParameter('token');
+        return $this->getParameter('accessToken');
     }
 
-    public function setToken($value): self
+    public function setAccessToken($value): self
     {
-        return $this->setParameter('token', $value);
+        return $this->setParameter('accessToken', $value);
     }
 
     public function getTokenExpires(): ?int

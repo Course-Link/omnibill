@@ -33,7 +33,7 @@ abstract class AbstractRequest extends BaseRequest
             [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $this->getToken(),
+                'Authorization' => 'Bearer ' . $this->getAccessToken(),
             ],
             json_encode($data)
         );
