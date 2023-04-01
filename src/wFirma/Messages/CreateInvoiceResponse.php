@@ -15,4 +15,14 @@ class CreateInvoiceResponse extends AbstractResponse
     {
         return $this->data['invoices'][0]['invoice']['id'] ?? null;
     }
+
+    public function getInvoiceNumber(): ?string
+    {
+        return $this->data['invoices'][0]['invoice']['fullnumber'] ?? null;
+    }
+
+    public function isInvoiceSent(): bool
+    {
+        return ($this->data['invoices'][0]['invoice']['auto_send'] ?? false) === "1";
+    }
 }

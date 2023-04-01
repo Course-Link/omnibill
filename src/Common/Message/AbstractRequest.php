@@ -680,14 +680,19 @@ abstract class AbstractRequest implements RequestInterface
         return $this->getParameter('paymentDate');
     }
 
-    public function setPaymentDate($value)
+    public function setPaymentDate($value): static
     {
         return $this->setParameter('paymentDate', $value);
     }
 
-    public function getSaleDate()
+    public function getSendInvoice()
     {
+        return $this->getParameter('sendInvoice');
+    }
 
+    public function setSendInvoice($value): static
+    {
+        return $this->setParameter('sendInvoice', $value);
     }
 
     /**

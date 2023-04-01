@@ -51,6 +51,11 @@ abstract class AbstractResponse implements ResponseInterface
         return false;
     }
 
+    public function isInvoiceSent(): bool
+    {
+        return false;
+    }
+
     /**
      * Does the response require a redirect?
      *
