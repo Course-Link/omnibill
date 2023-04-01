@@ -11,8 +11,8 @@ class CreateInvoiceResponse extends AbstractResponse
         return isset($this->data['invoices'][0]['invoice']['id']);
     }
 
-    public function getInvoiceId()
+    public function getInvoiceReference(): ?string
     {
-        return $this->data['invoices'][0]['invoice']['id'];
+        return $this->data['invoices'][0]['invoice']['id'] ?? null;
     }
 }

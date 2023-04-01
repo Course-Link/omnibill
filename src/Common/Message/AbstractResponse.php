@@ -29,39 +29,14 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
  */
 abstract class AbstractResponse implements ResponseInterface
 {
-
-    /**
-     * The embodied request object.
-     *
-     * @var RequestInterface
-     */
-    protected $request;
-
-    /**
-     * The data contained in the response.
-     *
-     * @var mixed
-     */
-    protected $data;
-
-    /**
-     * Constructor
-     *
-     * @param RequestInterface $request the initiating request.
-     * @param mixed $data
-     */
-    public function __construct(RequestInterface $request, $data)
+    public function __construct(
+        protected RequestInterface $request,
+        protected mixed            $data
+    )
     {
-        $this->request = $request;
-        $this->data = $data;
     }
 
-    /**
-     * Get the initiating request object.
-     *
-     * @return RequestInterface
-     */
-    public function getRequest()
+    public function getRequest(): RequestInterface
     {
         return $this->request;
     }
@@ -132,6 +107,16 @@ abstract class AbstractResponse implements ResponseInterface
      * @return null|string A response code from the payment gateway
      */
     public function getCode()
+    {
+        return null;
+    }
+
+    public function getInvoiceNumber(): ?string
+    {
+        return null;
+    }
+
+    public function getInvoiceReference(): ?string
     {
         return null;
     }
@@ -213,10 +198,10 @@ abstract class AbstractResponse implements ResponseInterface
         $hiddenFields = '';
         foreach ($this->getRedirectData() as $key => $value) {
             $hiddenFields .= sprintf(
-                '<input type="hidden" name="%1$s" value="%2$s" />',
-                htmlentities($key, ENT_QUOTES, 'UTF-8', false),
-                htmlentities($value, ENT_QUOTES, 'UTF-8', false)
-            )."\n";
+                    '<input type="hidden" name="%1$s" value="%2$s" />',
+                    htmlentities($key, ENT_QUOTES, 'UTF-8', false),
+                    htmlentities($value, ENT_QUOTES, 'UTF-8', false)
+                ) . "\n";
         }
 
         $output = '<!DOCTYPE html>
@@ -260,7 +245,7 @@ abstract class AbstractResponse implements ResponseInterface
         }
 
         if (!in_array($this->getRedirectMethod(), ['GET', 'POST'])) {
-            throw new RuntimeException('Invalid redirect method "'.$this->getRedirectMethod().'".');
+            throw new RuntimeException('Invalid redirect method "' . $this->getRedirectMethod() . '".');
         }
     }
 }
