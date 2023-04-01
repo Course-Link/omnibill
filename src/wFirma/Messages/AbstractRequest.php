@@ -22,8 +22,8 @@ abstract class AbstractRequest extends BaseRequest
     protected function sendRequest(string $method, string $endpoint, array $data = null): array
     {
         $query = http_build_query([
-            'input_format' => 'json',
-            'output_format' => 'json',
+            'inputFormat' => 'json',
+            'outputFormat' => 'json',
             'oauth_version' => 2,
             'companyId' => $this->getCompanyId(),
         ]);
