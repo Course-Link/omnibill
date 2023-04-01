@@ -15,6 +15,9 @@ class RefreshTokenResponse extends AbstractResponse
     {
         return [
             'access_token' => $this->data['access_token'],
+            'expires_in' => $this->data['expires_in'] ?? null,
+            'token_type' => $this->data['token_type'],
+            'scope' => $this->data['scope'] ?? null,
             'refresh_token' => $this->data['refresh_token'],
         ];
     }
