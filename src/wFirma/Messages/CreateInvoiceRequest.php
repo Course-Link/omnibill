@@ -24,6 +24,7 @@ class CreateInvoiceRequest extends AbstractRequest
                             "zip" => $this->getCustomer()->getPostcode(),
                             "city" => $this->getCustomer()->getCity(),
                             "email" => $this->getCustomer()->getEmail(),
+                            "tax_id_type" => $this->getCustomer()->getVatId() ? "nip" : "none",
                         ],
                         'type' => $this->getInvoiceType()->value,
                         "tax_evaluation_method" => "brutto",
